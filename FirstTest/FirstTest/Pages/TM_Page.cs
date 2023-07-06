@@ -1,4 +1,5 @@
 ﻿using FirstTest.Utilities;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,17 @@ namespace FirstTest.Pages
             IWebElement createnewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
             createnewButton.Click();
 
-            //Select Time from drop down list
-            IWebElement dropdownList = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[2]/span"));
-            dropdownList.Click();
+            try
+            {
+                //Select Time from drop down list
+                IWebElement dropdownList = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[2]/span"));
+                dropdownList.Click();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("CreateNew page isn't displayed", ex.Message);
+            }
+                
             IWebElement timeOption = driver.FindElement(By.XPath("//*[@id=\"TypeCode_listbox\"]/li[2]"));
             timeOption.Click();
 
@@ -49,15 +58,17 @@ namespace FirstTest.Pages
             IWebElement lastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             lastPageButton.Click();
             IWebElement newCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            if (newCode.Text == "sanal")
-            {
-                Console.WriteLine("The new record has been created successfully");
-            }
+            Assert.That(newCode.Text == "sanal", "New time record has not been created. Test failed!");
 
-            else
-            {
-                Console.WriteLine("The new record has not created. TEST FAILED");
-            }
+            //if (newCode.Text == "sanal")
+            //{
+            //    Assert.Pass("The new record has been created successfully");
+            //}
+
+            //else
+            //{
+            //    Assert.Fail("The new record has not created. TEST FAILED");
+            //}
 
 
             Thread.Sleep(1500);
@@ -74,11 +85,18 @@ namespace FirstTest.Pages
             editButton.Click();
 
 
-
-            //Edit the code details
-            IWebElement ccodeTextbox = driver.FindElement(By.Id("Code"));
-            ccodeTextbox.Clear();
-            ccodeTextbox.SendKeys("sanal jacob");
+            try
+            {
+                //Edit the code details
+                IWebElement ccodeTextbox = driver.FindElement(By.Id("Code"));
+                ccodeTextbox.Clear();
+                ccodeTextbox.SendKeys("sanal jacob");
+            }
+            catch (Exception ex) 
+            {
+                Assert.Fail("Edit button isn't working", ex.Message);
+            }
+            
 
 
             //Click save
@@ -91,19 +109,20 @@ namespace FirstTest.Pages
             IWebElement lllastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             lllastPageButton.Click();
             IWebElement neweditedCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            if (neweditedCode.Text == "sanal jacob")
-            {
-                Console.WriteLine("The editing functionality working successfully");
-            }
+            Assert.That(neweditedCode.Text == "sanal jacob", "Editing functionality working failed");
+            //if (neweditedCode.Text == "sanal jacob")
+            //{
+            //    Console.WriteLine("The editing functionality working successfully");
+            //}
 
-            else
-            {
-                Console.WriteLine("Editing test failed");
+            //else
+            //{
+            //    Console.WriteLine("Editing test failed");
 
-            }
+            //}
             Thread.Sleep(1500);
         }
-        public void DeleteTimeRecod(IWebDriver driver) 
+        public void DeleteTimeRecord(IWebDriver driver) 
         {
             //***********************************DELETE FUNCTIONALITY******************************************************
             //Click on delete button on a selected record
@@ -117,16 +136,17 @@ namespace FirstTest.Pages
             IWebElement lPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             lPageButton.Click();
             IWebElement deletedCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            if (deletedCode.Text != "sanal jacob")
-            {
-                Console.WriteLine("The deleting functionality working failed");
-            }
+            Assert.That(deletedCode.Text != "sanal jacob", "The deleting functiomality working successfully");
+            //if (deletedCode.Text != "sanal jacob")
+            //{
+            //    Console.WriteLine("The deleting functionality working failed");
+            //}
 
-            else
-            {
-                Console.WriteLine("The deleting functiomality working successfully");
+            //else
+            //{
+            //    Console.WriteLine("The deleting functiomality working successfully");
 
-            }
+            //}
         }
     }
 }

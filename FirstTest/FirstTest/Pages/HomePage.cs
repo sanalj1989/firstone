@@ -10,7 +10,7 @@ namespace FirstTest.Pages
 {
     public class HomePage
     {
-        public void GotoTMPage(IWebDriver driver)
+        public void GoToTMPage(IWebDriver driver)
         {
             //************************CREATE A NEW TIME RECORD******************************************
             //Navigate to Time and Material page
